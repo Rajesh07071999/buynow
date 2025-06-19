@@ -1,0 +1,11 @@
+.auth-wrapper {
+  background-color: #f8f9fa;
+}
+
+.auth-left {
+  flex: 1;
+  background: linear-gradient(to bottom right, #1d3557, #457b9d);
+  color: white;
+  min-height: 100vh;
+  text-align: center;
+}
