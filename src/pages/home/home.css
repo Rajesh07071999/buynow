@@ -1,8 +1,48 @@
-.product-card {
-  transition: all 0.3s ease-in-out;
+.product-modern-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.product-card:hover {
+.product-modern-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
+
+.product-modern-card .img-container {
+  height: 200px;
+  overflow: hidden;
+}
+
+.product-modern-card .img-container img {
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.product-modern-card:hover .img-container img {
+  transform: scale(1.08);
+}
+@keyframes marquee {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.input-group-lg > .form-control {
+  font-size: 1.25rem;
+  padding: 0.75rem 1rem;
+}
+.form-control-lg {
+  padding: 0.75rem 1.5rem;
+}
+
+.form-control-lg:focus {
+  border-color: #343a40;
+  box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.25);
+}
+

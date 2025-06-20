@@ -1,8 +1,8 @@
-// src/pages/Profile.jsx
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Profile = () => {
     const navigate = useNavigate()
     const [user, setUser] = useState({
@@ -32,7 +32,10 @@ const Profile = () => {
         e.preventDefault();
         localStorage.setItem("user", JSON.stringify(editableUser));
         setUser(editableUser);
-        alert("Profile updated successfully!");
+        toast.success("Profile updated successfully!", {
+            position: "top-right",
+            autoClose: 3000,
+        })
     };
 
     const handleCancel = () => {

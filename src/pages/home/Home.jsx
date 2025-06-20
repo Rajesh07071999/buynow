@@ -1,7 +1,9 @@
-// src/pages/home/Home.jsx
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FaShoppingCart } from "react-icons/fa";
-import "./home.css"
+import { FaShoppingCart, FaSearch, FaSortAmountDown, FaSortAmountUp } from "react-icons/fa";
+import { useCart } from "../../context/CartContext";
+import "./home.css";
+import { useState } from "react";
+
 const products = [
   {
     id: 1,
@@ -35,40 +37,145 @@ const products = [
 
 const Home = () => {
   const user = JSON.parse(localStorage.getItem("user"));
+  const { addToCart } = useCart();
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedRating, setSelectedRating] = useState("");
+  const [selectedPrice, setSelectedPrice] = useState("");
+
+  const handleSortToggle = () => {
+    setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
+  };
 
   return (
-    <div className="container my-5">
-      <h2 className=" mb-4 text-dark">Welcome, {user?.email || "User"} 👋</h2>
-      <h4 className="mb-4 text-dark">🔥 Featured Products</h4>
+    <div className="container-fluid my-5">
+      <div className="p-4 mb-4 text-center bg-light text-dark rounded">
+        <h1 className="fw-bold">Welcome, {user?.email || "Shopper"} 👋</h1>
+        <p className="lead">Find the best deals on your favorite products!</p>
+      </div>
 
-      <div className="row g-4">
-        {products.map((product) => (
-          <div className="col-sm-6 col-md-4 col-lg-3" key={product.id}>
-            <div className="card h-100 border-0 shadow-sm product-card">
-              <div className="position-relative">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="card-img-top rounded-top"
-                  style={{ height: "220px", objectFit: "cover" }}
-                />
-              </div>
-              <div className="card-body d-flex flex-column justify-content-between">
-                <h5 className="card-title text-dark fw-semibold">{product.name}</h5>
-                <p className="card-text text-success fs-6 mb-1">₹{product.price}</p>
-                <div className="text-warning mb-3" style={{ fontSize: "0.9rem" }}>
-                  {"⭐".repeat(Math.floor(product.rating))} ({product.rating})
+      {/* Marquee */}
+      <div className="bg-light text-dark py-2 overflow-hidden position-relative mb-4">
+        <div
+          className="d-inline-block"
+          style={{
+            whiteSpace: "nowrap",
+            animation: "marquee 15s linear infinite",
+          }}
+        >
+          💥 Mega Sale on Electronics! Up to 50% off | 🚀 Free shipping on orders above ₹5000 | 🎧 Wireless Headphones at ₹2499 only! | ⌚ Smart Watches starting ₹3999 | 😎 Stylish Sunglasses at ₹699 — Grab Now!
+        </div>
+      </div>
+
+      {/* Search bar large */}
+      <div className="mb-4 col-md-8 mx-auto">
+        <div className="input-group input-group-lg">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search for products, brands, categories..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button className="btn btn-dark">
+            <FaSearch />
+          </button>
+        </div>
+      </div>
+
+      {/* Filters + Sort */}
+      <div className="row g-3 mb-4">
+        <div className="col-sm-6 col-md-3">
+          <select
+            className="form-select"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            <option value="">All Categories</option>
+            <option value="electronics">Electronics</option>
+            <option value="fashion">Fashion</option>
+            <option value="accessories">Accessories</option>
+          </select>
+        </div>
+
+        <div className="col-sm-6 col-md-3">
+          <select
+            className="form-select"
+            value={selectedRating}
+            onChange={(e) => setSelectedRating(e.target.value)}
+          >
+            <option value="">All Ratings</option>
+            <option value="4">4 ⭐ & above</option>
+            <option value="3">3 ⭐ & above</option>
+          </select>
+        </div>
+
+        <div className="col-sm-6 col-md-3">
+          <select
+            className="form-select"
+            value={selectedPrice}
+            onChange={(e) => setSelectedPrice(e.target.value)}
+          >
+            <option value="">All Prices</option>
+            <option value="1000">Below ₹1000</option>
+            <option value="5000">Below ₹5000</option>
+          </select>
+        </div>
+
+        <div className="col-sm-6 col-md-3">
+          <button className="btn btn-outline-dark w-100" onClick={handleSortToggle}>
+            {sortOrder === "asc" ? (
+              <>
+                <FaSortAmountDown /> Price: Low to High
+              </>
+            ) : (
+              <>
+                <FaSortAmountUp /> Price: High to Low
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Product Grid */}
+      <div className="row g-4 mt-3">
+        {products.length === 0 ? (
+          <div className="alert alert-info">No products available at the moment.</div>
+        ) : (
+          products.map((product) => (
+            <div className="col-sm-6 col-md-4 col-lg-3" key={product.id}>
+              <div className="product-modern-card h-100 d-flex flex-column">
+                <div className="img-container">
+                  <img src={product.image} alt={product.name} className="w-100 h-100" />
                 </div>
-                <button className="btn btn-dark w-100 d-flex align-items-center justify-content-center gap-2">
-                  <FaShoppingCart />
-                  Add to Cart
-                </button>
+                <div className="p-3 d-flex flex-column flex-grow-1 justify-content-between">
+                  <div>
+                    <h5 className="fw-bold mb-1 text-dark">{product.name}</h5>
+                    <p className="mb-1 text-success">₹{product.price}</p>
+                    <div className="text-warning small mb-2">
+                      {"⭐".repeat(Math.floor(product.rating))}{" "}
+                      <span className="text-muted">({product.rating})</span>
+                    </div>
+                  </div>
+                  <button
+                    className="btn btn-outline-dark rounded-circle d-flex align-items-center justify-content-center"
+                    style={{ width: "45px", height: "45px" }}
+                    onClick={() => addToCart(product)}
+                    title="Add to Cart"
+                  >
+                    <FaShoppingCart size={18} />
+                  </button>
+
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
+
   );
 };
 

@@ -11,7 +11,7 @@ const CarouselSection = () => {
 
           <div className="carousel-item active">
             <img
-              src="https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://images.ctfassets.net/wp1lcwdav1p1/5HX85I2zLsXYSSruC8670C/93ccb22b55d7638fc4109b118a7fd630/GettyImages-1313131428.jpg?w=1500&h=680&q=60&fit=fill&f=faces&fm=jpg&fl=progressive&auto=format%2Ccompress&dpr=1&w=1000"
+              src="https://images.unsplash.com/photo-1688561807440-8a57dfa77ee3?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGUlMjBjb21tZXJjZXxlbnwwfHwwfHx8MA%3D%3D"
               className="d-block w-100 carousel-img"
               style={{ maxHeight: "90vh", objectFit: "cover" }}
               alt="Shopping"
@@ -24,7 +24,7 @@ const CarouselSection = () => {
 
           <div className="carousel-item">
             <img
-              src="https://images.unsplash.com/photo-1688561807440-8a57dfa77ee3?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGUlMjBjb21tZXJjZXxlbnwwfHwwfHx8MA%3D%3D"
+              src="https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://images.ctfassets.net/wp1lcwdav1p1/5HX85I2zLsXYSSruC8670C/93ccb22b55d7638fc4109b118a7fd630/GettyImages-1313131428.jpg?w=1500&h=680&q=60&fit=fill&f=faces&fm=jpg&fl=progressive&auto=format%2Ccompress&dpr=1&w=1000"
               className="d-block w-100 carousel-img"
               style={{ maxHeight: "90vh", objectFit: "cover" }}
               alt="Fashion"
@@ -69,43 +69,25 @@ const CarouselSection = () => {
       <section className="py-5 bg-light text-center">
         <div className="container">
           <div className="row g-4">
-            <div className="col-md-4">
+            <div className="col-md-4 card">
               <div className="p-4 shadow-sm bg-white rounded-3 h-100">
                 <h5 className="fw-bold text-dark">🚚 Fast Delivery</h5>
                 <p className="text-muted">We ensure your orders are delivered quickly and safely across the country.</p>
               </div>
             </div>
-            <div className="col-md-4">
+            <div className="col-md-4 card">
               <div className="p-4 shadow-sm bg-white rounded-3 h-100">
                 <h5 className="fw-bold text-dark">🔒 Secure Payments</h5>
                 <p className="text-muted">Your transactions are safe with our top-tier encryption & gateways.</p>
               </div>
             </div>
-            <div className="col-md-4">
+            <div className="col-md-4 card">
               <div className="p-4 shadow-sm bg-white rounded-3 h-100">
                 <h5 className="fw-bold text-dark">📞 24/7 Support</h5>
                 <p className="text-muted">Need help? Our support team is always here to assist you instantly.</p>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section className="py-5 text-center bg-white">
-        <div className="container">
-          <h2 className="fw-bold mb-3">Why Shop With <span className="text-dark">BUYNOW</span>?</h2>
-          <p className="text-muted w-75 mx-auto">
-            At BUYNOW, we bring you a seamless shopping experience — from trending fashion and premium gadgets
-            to daily essentials, all at unbeatable prices. Shop smarter, live better.
-          </p>
-        </div>
-      </section>
-
-      <section className="py-5 bg-light text-center">
-        <div className="container">
-          <h2 className="fw-bold mb-3">🛒 Download Our App</h2>
-          <p className="text-muted mb-4">Shop faster and easier with our all-in-one mobile app.</p>
-          <button className="btn btn-dark px-4 py-2">Coming Soon on Play Store</button>
         </div>
       </section>
     </div>
