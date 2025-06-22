@@ -1,49 +1,82 @@
-import React, { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
+import { BallTriangle } from "react-loader-spinner";
+import * as AllRedux from "../../store/slices/userSlice";
+import { useDispatch } from "react-redux";
 const Profile = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const dispatch = useDispatch()
     const [user, setUser] = useState({
-        name: "",
+        full_name: "",
         email: "",
-        phone: "",
+        country_code: "",
+        mobile_number: "",
     });
-
     const [editableUser, setEditableUser] = useState({ ...user });
-
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
-        const storedUser = JSON.parse(localStorage.getItem("user"));
-        if (storedUser) {
-            setUser(storedUser);
-            setEditableUser(storedUser);
-        }
+        const fetchUserDetails = async () => {
+            setLoading(true);
+            try {
+                const res = await dispatch(AllRedux.userProfile({}));
+                if (res?.payload?.code == 200) {
+                    const data = res.payload.data;
+                    setUser(data);
+                    setEditableUser(data);
+                }
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setTimeout(() => {
+                    setLoading(false);
+                }, 3000)
+            }
+        };
+        fetchUserDetails();
     }, []);
 
+
+
     const handleChange = (e) => {
-        setEditableUser({
-            ...editableUser,
+        setEditableUser((prev) => ({
+            ...prev,
             [e.target.name]: e.target.value,
-        });
+        }));
     };
-
-    const handleUpdate = (e) => {
+    const handleUpdate = async (e) => {
         e.preventDefault();
-        localStorage.setItem("user", JSON.stringify(editableUser));
-        setUser(editableUser);
-        toast.success("Profile updated successfully!", {
-            position: "top-right",
-            autoClose: 3000,
-        })
+        setLoading(true);
+        try {
+            dispatch(AllRedux.editProfile({ editableUser })).then((res) => {
+                if (res?.payload?.code == 200) {
+                    setTimeout(() => {
+                        setLoading(false);
+                        navigate("/home");
+                    }, 3000);
+                }
+            });
+
+        } catch (error) {
+            setLoading(false);
+            console.log("Update error:", error);
+        }
     };
 
-    const handleCancel = () => {
-        setEditableUser(user);
-        navigate("/home")
-    };
 
-    return (
+    return loading ? (
+        <div className="d-flex justify-content-center align-items-center" style={{ height: "300px" }}>
+            <BallTriangle
+                height={100}
+                width={100}
+                radius={5}
+                color="#4fa94d"
+                ariaLabel="ball-triangle-loading"
+                visible={true}
+            />
+        </div>
+    ) : (
         <div className="container mt-5">
             <div className="row justify-content-center">
                 <div className="col-md-6 shadow p-4 bg-white rounded-4">
@@ -53,15 +86,16 @@ const Profile = () => {
                             <input
                                 type="text"
                                 className="form-control"
-                                id="name"
-                                name="name"
-                                value={editableUser.name}
+                                id="full_name"
+                                name="full_name"
+                                value={editableUser.full_name}
                                 onChange={handleChange}
-                                placeholder="Your Name"
+                                placeholder="Full Name"
                                 required
                             />
-                            <label htmlFor="name">Name</label>
+                            <label htmlFor="full_name">Full Name</label>
                         </div>
+
                         <div className="form-floating mb-3">
                             <input
                                 type="email"
@@ -69,26 +103,45 @@ const Profile = () => {
                                 id="email"
                                 name="email"
                                 value={editableUser.email}
-                                onChange={handleChange}
-                                placeholder="Email"
                                 readOnly
                             />
                             <label htmlFor="email">Email Address</label>
                         </div>
+
+                        <div className="form-floating mb-3">
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="country_code"
+                                name="country_code"
+                                value={editableUser.country_code}
+                                onChange={handleChange}
+                                placeholder="Country Code"
+                                required
+                            />
+                            <label htmlFor="country_code">Country Code</label>
+                        </div>
+
                         <div className="form-floating mb-3">
                             <input
                                 type="tel"
                                 className="form-control"
-                                id="phone"
-                                name="phone"
-                                value={editableUser.phone}
+                                id="mobile_number"
+                                name="mobile_number"
+                                value={editableUser.mobile_number}
                                 onChange={handleChange}
-                                placeholder="Phone"
+                                placeholder="Mobile Number"
+                                required
                             />
-                            <label htmlFor="phone">Phone Number</label>
+                            <label htmlFor="mobile_number">Mobile Number</label>
                         </div>
+
                         <div className="d-flex justify-content-between">
-                            <button type="button" onClick={handleCancel} className="btn btn-secondary">
+                            <button
+                                type="button"
+                                onClick={() => navigate("/home")}
+                                className="btn btn-secondary"
+                            >
                                 Back
                             </button>
                             <button type="submit" className="btn btn-dark">

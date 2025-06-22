@@ -28,7 +28,7 @@ const Footer = ({ user }) => {
                         <div className="d-flex gap-3">
                             <a href="#" className="text-white-50 fs-5"><FaFacebook /></a>
                             <a href="#" className="text-white-50 fs-5"><FaTwitter /></a>
-                            <a href="#" className="text-white-50 fs-5"><FaInstagram /></a>
+                            <a href="https://www.instagram.com/imrajesh07/" className="text-white-50 fs-5"><FaInstagram /></a>
                             <a href="#" className="text-white-50 fs-5"><FaLinkedin /></a>
                         </div>
                     </div>

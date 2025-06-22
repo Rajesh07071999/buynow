@@ -1,33 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { FaArrowLeft, FaBoxOpen, FaRupeeSign } from "react-icons/fa";
-
-const dummyOrders = [
-  {
-    id: "ORD123456",
-    date: "2025-06-19",
-    total: 2599,
-    items: [
-      { name: "Wireless Headphones", qty: 1, price: 1999 },
-      { name: "Sunglasses", qty: 1, price: 600 },
-    ],
-    status: "Delivered",
-  },
-  {
-    id: "ORD789101",
-    date: "2025-06-25",
-    total: 4999,
-    items: [{ name: "Smart Watch", qty: 1, price: 4999 }],
-    status: "Shipped",
-  }
-];
-
+import { FaArrowLeft, FaRupeeSign } from "react-icons/fa";
+import { BallTriangle } from "react-loader-spinner";
+import { orderListing } from "../../store/slices/orderSlice";
+import { useDispatch } from "react-redux";
 const OrderDetails = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
-
-  const order = dummyOrders.find((o) => o.id === orderId);
-
+  const dispatch = useDispatch()
+  const [order, setOrder] = useState(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchOrder = async () => {
+      setLoading(true);
+      try {
+        dispatch(orderListing({ id: orderId })).then((res) => {
+          console.log(res.payload);
+          
+          if (res?.payload?.code == 200) {
+            setOrder(res.payload.data.orders[0]);
+          }
+          else {
+            setOrder([])
+          }
+        });
+      } catch (error) {
+      } finally {
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
+      }
+    };
+    fetchOrder();
+  }, [orderId]);
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ height: "300px" }}>
+        <BallTriangle height={100} width={100} color="#4fa94d" />
+      </div>
+    );
+  }
   if (!order) {
     return (
       <div className="container my-5">
@@ -38,51 +50,59 @@ const OrderDetails = () => {
       </div>
     );
   }
-
+  const grandTotal = order.productDetails.reduce(
+    (sum, product) => sum + product.price * order.qty,
+    0
+  );
   return (
     <div className="container my-5">
       <button className="btn btn-dark mb-3" onClick={() => navigate(-1)}>
         <FaArrowLeft /> Back to Orders
       </button>
-
       <div className="card shadow-sm p-4 mb-4">
         <div className="d-flex flex-wrap justify-content-between">
           <div>
-            <h4 className="fw-bold text-dark mb-2">Order ID: {order.id}</h4>
-            <div className="text-muted">Date: {order.date}</div>
+            <h4 className="fw-bold text-dark mb-2">Order ID: {order.order_id}</h4>
+            <div className="text-muted">
+              Delivery Date: {new Date(order.orderDetails.delivery_date).toLocaleDateString()}
+            </div>
           </div>
           <div>
-            <span className={`badge fs-6 ${order.status === "Delivered"
-              ? "bg-success"
-              : order.status === "Shipped"
-              ? "bg-primary"
-              : "bg-danger"
-            }`}>
+            <span
+              className={`badge fs-6 ${order.status === "Delivered"
+                ? "bg-success"
+                : order.status === "Shipped"
+                  ? "bg-primary"
+                  : "bg-danger"
+                }`}
+            >
               {order.status}
             </span>
           </div>
         </div>
       </div>
-
       <div className="card shadow-sm p-4">
         <h5 className="fw-bold text-dark mb-3">📦 Items</h5>
         <ul className="list-group mb-3">
-          {order.items.map((item, idx) => (
-            <li key={idx} className="list-group-item d-flex justify-content-between align-items-center">
+          {order.productDetails.map((product, idx) => (
+            <li
+              key={idx}
+              className="list-group-item d-flex justify-content-between align-items-center"
+            >
               <div>
-                <strong>{item.name}</strong> <br />
-                <span className="text-muted small">Quantity: {item.qty}</span>
+                <strong>{product.name}</strong>
+                <br />
+                <span className="text-muted small">Quantity: {order.qty}</span>
               </div>
-              <div>
-                ₹{item.price * item.qty}
-              </div>
+              <div>₹{product.price * order.qty}</div>
             </li>
           ))}
         </ul>
-
         <div className="d-flex justify-content-end gap-3 fw-bold fs-5">
           <div>Total:</div>
-          <div><FaRupeeSign /> {order.total}</div>
+          <div>
+            <FaRupeeSign /> {grandTotal}
+          </div>
         </div>
       </div>
     </div>

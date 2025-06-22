@@ -46,3 +46,9 @@
   box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.25);
 }
 
+.card:hover {
+  transform: scale(1.02);
+  transition: 0.3s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+

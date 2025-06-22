@@ -1,10 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import Swal from "sweetalert2";
-
+import * as AllRedux from "../../store/slices/userSlice";
+import { useDispatch } from "react-redux";
 const Header = ({ user, setUser }) => {
   const navigate = useNavigate();
-
+const dispatch = useDispatch()
   const handleLogout = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -15,12 +16,23 @@ const Header = ({ user, setUser }) => {
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, Logout",
       cancelButtonText: "Cancel",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        localStorage.removeItem("user");
-        setUser(null);
-        navigate("/");
-        Swal.fire("Logged Out!", "You have been logged out.", "success");
+        try {
+           dispatch(AllRedux.logout({  })).then((res) => {
+                  if (res?.payload?.code == 200) {
+                  localStorage.removeItem("token");
+            setUser(null);
+            navigate("/");
+            
+                  }
+                });
+        } catch (error) {
+          console.error("Login error:", error);
+          toast.error("Something went wrong!");
+        } finally {
+        }
+
       }
     });
   };
@@ -55,7 +67,7 @@ const Header = ({ user, setUser }) => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  <FaUserCircle size={28} className="text-dark" />
+                  <FaUserCircle size={35} className="text-dark" />
                 </button>
                 <ul className="dropdown-menu dropdown-menu-end">
                   <li>

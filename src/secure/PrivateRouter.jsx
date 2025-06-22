@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 
 const PrivateRoute = ({ children }) => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = (localStorage.getItem("token"));
   return user ? children : <Navigate to="/login" />;
 };
 

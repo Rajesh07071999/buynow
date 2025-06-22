@@ -18,12 +18,19 @@ import "./App.css";
 import { ToastContainer } from "react-toastify";
 import OrderDetails from "./pages/order/OrderDetails";
 import OrderConfirmation from "./pages/order/OrderConfirmation";
-
+import { useSelector, useDispatch } from "react-redux";
+import { cartListing } from "../src/store/slices/cartSlice"
+import NotFound from "./components/NotFound";
+import OrderHistory from "./pages/order/OrderHistory";
 const CartIcon = ({ user }) => {
-  const { cartItems } = useCart();
-  const totalQty = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-
   if (!user) return null;
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(cartListing());
+  }, []);
+  const cartItems = useSelector((state) => state?.cart?.CartListing?.data?.data);
+  const totalQty = cartItems?.reduce((sum, item) => sum + item?.qty, 0);
 
   return (
     <div
@@ -31,7 +38,7 @@ const CartIcon = ({ user }) => {
       style={{
         top: "100px",
         right: "20px",
-        zIndex: 1050, // Ensure it stays above carousel / content
+        zIndex: 1050,
       }}
     >
       <Link
@@ -61,7 +68,7 @@ const DashBoardIcon = ({ user }) => {
     <div
       className="position-fixed"
       style={{
-        top: "160px",  
+        top: "160px",
         right: "20px",
         zIndex: 1050,
       }}
@@ -77,12 +84,35 @@ const DashBoardIcon = ({ user }) => {
     </div>
   );
 };
+
+const OrderHistoryIcon = ({ user }) => {
+  if (!user) return null;
+  return (
+    <div
+      className="position-fixed"
+      style={{
+        top: "220px",
+        right: "20px",
+        zIndex: 1050,
+      }}
+    >
+      <Link
+        to="/order-history"
+        className="btn btn-dark position-relative shadow-sm rounded-circle p-2"
+        title="OrderHistory"
+        style={{ width: "48px", height: "48px", display: "flex", alignItems: "center", justifyContent: "center" }}
+      >
+        <FaHistory size={20} />
+      </Link>
+    </div>
+  );
+};
 function App() {
 
-  const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user")));
+  const [user, setUser] = useState(() => (localStorage.getItem("token")));
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const storedUser = (localStorage.getItem("token"));
     setUser(storedUser);
   }, []);
 
@@ -90,10 +120,14 @@ function App() {
     <CartProvider>
       <Router>
         <Header user={user} setUser={setUser} />
+
         <CartIcon user={user} />
         <DashBoardIcon user={user} />
+        <OrderHistoryIcon user={user} />
         <div className="main-content">
           <Routes>
+            <Route path='*' element={<NotFound />} />
+            <Route path='/not-found' element={<NotFound />} />
             <Route path="/" element={<CarouselSection />} />
             <Route
               path="/register"
@@ -153,19 +187,28 @@ function App() {
               }
             />
             <Route
-              path="/order-confirmation"
+              path="/order-confirmation/:orderId"
               element={
                 <PrivateRoute>
                   <OrderConfirmation />
                 </PrivateRoute>
               }
             />
+
+            <Route
+              path="/order-history"
+              element={
+                <PrivateRoute>
+                  <OrderHistory />
+                </PrivateRoute>
+              }
+            />
           </Routes>
-          
+
         </div>
         <Footer user={user} />
       </Router>
-      <ToastContainer/>
+      <ToastContainer />
     </CartProvider>
   );
 }
