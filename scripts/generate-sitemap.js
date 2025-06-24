@@ -1,18 +1,23 @@
 // scripts/generate-sitemap.js
 import fs from 'fs';
 
-// ✅ List all your routes here
+const baseUrl = 'https://buynow-neon.vercel.app';
+
+// ✅ Only list public routes you want to show up in search
 const pages = [
   '',
-  'products',
-  'orders',
-  'customers',
-  'analytics',
-  'settings',
-];
+  'register',
+  'login',
+  'home',
+  'profile',
+  'cart',
+  'dashboard',
+  'order',
+  'order-confirmation',
+  
 
-// ✅ Base URL for your deployed site
-const baseUrl = 'https://buynow-neon.vercel.app';
+  // Add more *public* pages if you have them
+];
 
 const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

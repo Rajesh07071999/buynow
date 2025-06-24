@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://buynow-neon.vercel.app/sitemap.xml
