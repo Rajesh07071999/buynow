@@ -1,33 +1,55 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+  <!-- Charset & Viewport -->
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- ✅ Google Search Console verification -->
-    <meta name="google-site-verification" content="UoFTLJyLyLuqYZ0WyrGRafb_r1JN_zCR8aVlUTe6lOQ" />
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" href="/favicon.ico" />
 
-    <!-- ✅ SEO Title & Description -->
-    <title>BuyNow - Powerful E-commerce Dashboard & Analytics</title>
-    <meta name="description" content="BuyNow is a sleek, modern dashboard for managing products, orders, customers, and sales analytics. Powered by Vercel.">
+  <!-- ✅ Google Search Console verification -->
+  <meta name="google-site-verification" content="UoFTLJyLyLuqYZ0WyrGRafb_r1JN_zCR8aVlUTe6lOQ" />
 
-    <!-- ✅ Open Graph (OG) tags for link previews -->
-    <meta property="og:title" content="BuyNow - Powerful E-commerce Dashboard" />
-    <meta property="og:description" content="Manage your online shop efficiently with real-time analytics and order tracking.">
-    <meta property="og:image" content="https://buynow-neon.vercel.app/vite.svg" />
-    <meta property="og:url" content="https://buynow-neon.vercel.app/" />
-    <meta property="og:type" content="website" />
+  <!-- ✅ Title & Description -->
+  <title>BuyNow - Powerful E-commerce Dashboard & Analytics</title>
+  <meta name="description" content="BuyNow is a powerful, easy-to-use e-commerce dashboard that lets you manage products, orders, customers, and sales analytics — all in one sleek, modern interface." />
+  <meta name="keywords" content="ecommerce dashboard, product management, order management, sales analytics, Vercel" />
+  <meta name="author" content="Your Company Name" />
 
-    <!-- ✅ Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="BuyNow - Powerful E-commerce Dashboard" />
-    <meta name="twitter:description" content="Manage your shop's products, orders, and customers easily.">
-    <meta name="twitter:image" content="https://buynow-neon.vercel.app/vite.svg" />
+  <!-- ✅ Open Graph / Facebook -->
+  <meta property="og:title" content="BuyNow - Powerful E-commerce Dashboard" />
+  <meta property="og:description" content="Manage your online shop efficiently with real-time analytics and order tracking." />
+  <meta property="og:image" content="https://buynow-neon.vercel.app/vite.svg" />
+  <meta property="og:url" content="https://buynow-neon.vercel.app/" />
+  <meta property="og:type" content="website" />
 
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+  <!-- ✅ Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="BuyNow - Powerful E-commerce Dashboard" />
+  <meta name="twitter:description" content="Manage your shop's products, orders, and customers easily." />
+  <meta name="twitter:image" content="https://buynow-neon.vercel.app/vite.svg" />
+
+  <!-- ✅ JSON-LD Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "BuyNow",
+    "url": "https://buynow-neon.vercel.app/",
+    "description": "BuyNow is a powerful e-commerce dashboard to manage products, orders, customers, and sales analytics.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://buynow-neon.vercel.app/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
 </html>
