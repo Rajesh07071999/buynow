@@ -6,6 +6,25 @@ import {
   FaHeadset
 } from "react-icons/fa";
 
+const slides = [
+  {
+    img: "https://infygain.com/uploads/3e8528b7-fb50-421e-be4f-50da50e24483E-commerce%20Website%20Development%20Company%20in%20Coimbatore%20(1).webp", // ✅ Serve WebP or optimized format
+    title: "Welcome to",
+    highlight: "🛍️ BUYNOW",
+    subtitle: "Find your best deals now!"
+  },
+  {
+    img: "https://www.areinfotech.com/assets/images/b2b-ecommerce-website-development.webp",
+    title: "Stylish Trends 🛍️ BuyNow",
+    subtitle: "Up to 60% off this season"
+  },
+  {
+    img: "https://www.codiasticsoft.com/assets/img/blogs/E-Comm.jpg",
+    title: "Smart Gadgets 🛍️ BuyNow",
+    subtitle: "Upgrade your lifestyle"
+  }
+];
+
 const CarouselSection = () => {
   return (
     <div className="container-fluid px-0">
@@ -16,24 +35,7 @@ const CarouselSection = () => {
         data-bs-interval="3500"
       >
         <div className="carousel-inner">
-          {[
-            {
-              img: "https://images.unsplash.com/photo-1688561807440-8a57dfa77ee3?fm=jpg&q=60&w=3000",
-              title: "Welcome to",
-              highlight: "🛍️ BUYNOW",
-              subtitle: "Find your best deals now!"
-            },
-            {
-              img: "https://images.ctfassets.net/wp1lcwdav1p1/5HX85I2zLsXYSSruC8670C/93ccb22b55d7638fc4109b118a7fd630/GettyImages-1313131428.jpg",
-              title: "Stylish Trends 🛍️ BuyNow",
-              subtitle: "Up to 60% off this season"
-            },
-            {
-              img: "https://png.pngtree.com/thumb_back/fh260/background/20230714/pngtree-gadgets-on-a-moody-3d-backdrop-image_3859893.jpg",
-              title: "Smart Gadgets 🛍️ BuyNow",
-              subtitle: "Upgrade your lifestyle"
-            }
-          ].map((item, index) => (
+          {slides.map((item, index) => (
             <div
               className={`carousel-item ${index === 0 ? "active" : ""}`}
               key={index}
@@ -41,9 +43,9 @@ const CarouselSection = () => {
               <div className="position-relative">
                 <img
                   src={item.img}
-                  className="d-block w-100"
-                  style={{ maxHeight: "70vh", objectFit: "cover", filter: "brightness(0.7)" }}
+                  className="carousel-img d-block w-100"
                   alt={item.title}
+                  loading={index === 0 ? "eager" : "lazy"}
                 />
                 <div className="carousel-caption d-none d-md-block position-absolute top-50 start-50 translate-middle text-white bg-dark bg-opacity-50 rounded p-4 shadow-lg">
                   <h2 className="fw-bold">
@@ -57,14 +59,25 @@ const CarouselSection = () => {
           ))}
         </div>
 
-        <button className="carousel-control-prev" type="button" data-bs-target="#ecomCarousel" data-bs-slide="prev">
+        <button
+          className="carousel-control-prev"
+          type="button"
+          data-bs-target="#ecomCarousel"
+          data-bs-slide="prev"
+        >
           <span className="carousel-control-prev-icon" aria-hidden="true" />
         </button>
-        <button className="carousel-control-next" type="button" data-bs-target="#ecomCarousel" data-bs-slide="next">
+        <button
+          className="carousel-control-next"
+          type="button"
+          data-bs-target="#ecomCarousel"
+          data-bs-slide="next"
+        >
           <span className="carousel-control-next-icon" aria-hidden="true" />
         </button>
       </div>
 
+      {/* Info section */}
       <section className="py-5 bg-light text-center">
         <div className="container">
           <div className="row g-4">
