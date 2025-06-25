@@ -42,7 +42,7 @@ const Login = ({ setUser }) => {
 
       <>
         <h2 className="fw-bold text-center mb-4 text-dark">Welcome Back</h2>
-        <p className="text-center text-muted mb-4">Login to your BUYNOW account</p>
+        <p className="text-center text-muted mb-4">Login to your  account</p>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-floating mb-3">
             <input

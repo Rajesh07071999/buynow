@@ -9,7 +9,7 @@ const Footer = ({ user }) => {
             <div className="container">
                 <div className="row gy-4">
                     <div className="col-md-4">
-                        <h5 className="fw-bold">🛍️ BUYNOW</h5>
+                        <h5 className="fw-bold">🛍️ BUYIT</h5>
                         <p className="small">
                             Your one-stop shop for amazing deals on electronics, fashion, and more. Thank you for shopping with us!
                         </p>
@@ -20,7 +20,7 @@ const Footer = ({ user }) => {
                             <li><Link to="/home" className="text-white-50 text-decoration-none">Home</Link></li>
                             <li><Link to="/profile" className="text-white-50 text-decoration-none">Profile</Link></li>
                             <li><Link to="/cart" className="text-white-50 text-decoration-none">Cart</Link></li>
-                            <li><Link to="/order" className="text-white-50 text-decoration-none">Order History</Link></li>
+                            <li><Link to="/order-history" className="text-white-50 text-decoration-none">Order History</Link></li>
                         </ul>
                     </div>
                     <div className="col-md-4">
@@ -35,7 +35,7 @@ const Footer = ({ user }) => {
                 </div>
                 <hr className="border-secondary mt-4" />
                 <div className="text-center small text-white-50">
-                    &copy; {new Date().getFullYear()} 🛍️ BUYNOW. All rights reserved.
+                    &copy; {new Date().getFullYear()} 🛍️ BUYIT. All rights reserved.
                 </div>
             </div>
         </footer>

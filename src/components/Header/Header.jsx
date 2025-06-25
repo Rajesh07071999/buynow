@@ -41,7 +41,7 @@ const dispatch = useDispatch()
     <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm px-4 py-2 sticky-top">
       <div className="container-fluid">
         <Link className="navbar-brand fw-bold text-dark fs-4" to="/">
-          🛍️ <span className="text-dark">BuyNow</span>
+          🛍️ <span className="text-dark">BuyIt</span>
         </Link>
 
         <button

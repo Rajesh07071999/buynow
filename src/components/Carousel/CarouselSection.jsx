@@ -10,17 +10,17 @@ const slides = [
   {
     img: "https://infygain.com/uploads/3e8528b7-fb50-421e-be4f-50da50e24483E-commerce%20Website%20Development%20Company%20in%20Coimbatore%20(1).webp", // ✅ Serve WebP or optimized format
     title: "Welcome to",
-    highlight: "🛍️ BUYNOW",
+    highlight: "🛍️ BUYIT",
     subtitle: "Find your best deals now!"
   },
   {
     img: "https://www.areinfotech.com/assets/images/b2b-ecommerce-website-development.webp",
-    title: "Stylish Trends 🛍️ BuyNow",
+    title: "Stylish Trends 🛍️ BuyIt",
     subtitle: "Up to 60% off this season"
   },
   {
     img: "https://www.codiasticsoft.com/assets/img/blogs/E-Comm.jpg",
-    title: "Smart Gadgets 🛍️ BuyNow",
+    title: "Smart Gadgets 🛍️ BuyIt",
     subtitle: "Upgrade your lifestyle"
   }
 ];

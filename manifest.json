@@ -1,6 +1,6 @@
 {
-  "name": "BuyNow",
-  "short_name": "BuyNow",
+  "name": "BuyIt",
+  "short_name": "BuyIt",
   "description": "Powerful e-commerce dashboard & analytics",
   "start_url": "/",
   "display": "standalone",
@@ -8,12 +8,12 @@
   "background_color": "#ffffff",
   "icons": [
     {
-      "src": "/favicon-192x192.png",
+      "src": "/favicon.ico",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/favicon-512x512.png",
+      "src": "/favicon.ico",
       "sizes": "512x512",
       "type": "image/png"
     }
