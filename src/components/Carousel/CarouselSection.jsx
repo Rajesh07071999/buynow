@@ -8,7 +8,7 @@ import {
 
 const slides = [
   {
-    img: "https://infygain.com/uploads/3e8528b7-fb50-421e-be4f-50da50e24483E-commerce%20Website%20Development%20Company%20in%20Coimbatore%20(1).webp", // ✅ Serve WebP or optimized format
+    img: "https://png.pngtree.com/thumb_back/fh260/background/20230617/pngtree-visualizing-e-commerce-in-benin-through-3d-rendering-for-social-media-image_3640688.jpg", // ✅ Serve WebP or optimized format
     title: "Welcome to",
     highlight: "🛍️ BUYIT",
     subtitle: "Find your best deals now!"
@@ -47,7 +47,7 @@ const CarouselSection = () => {
                   alt={item.title}
                   loading={index === 0 ? "eager" : "lazy"}
                 />
-                <div className="carousel-caption d-none d-md-block position-absolute top-50 start-50 translate-middle text-white bg-dark bg-opacity-50 rounded p-4 shadow-lg">
+                <div className="carousel-caption d-none d-md-block position-absolute top-40 start-50 translate-middle text-white rounded p-4">
                   <h2 className="fw-bold">
                     {item.title}{" "}
                     {item.highlight && <span className="text-warning">{item.highlight}</span>}
