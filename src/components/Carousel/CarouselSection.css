@@ -3,6 +3,7 @@
   aspect-ratio: 16/9;     /* ✅ Reserves space to prevent layout shift */
   object-fit: cover;
   filter: brightness(0.7);
+  height: 90vh;
 }
 
 /* Optional: Reduce CLS for captions by giving them stable size */
