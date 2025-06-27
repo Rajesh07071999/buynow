@@ -1,11 +1,14 @@
-import { useState, useEffect } from "react";
-import { FaShoppingCart, FaSearch, FaSortAmountDown, FaSortAmountUp, FaStar } from "react-icons/fa";
+import { useState, useEffect, useCallback } from "react";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+import { FaShoppingCart, FaSearch, FaSortAmountDown, FaSortAmountUp, FaStar, FaEye } from "react-icons/fa";
 import "./home.css";
 import { BallTriangle } from "react-loader-spinner";
 import * as AllRedux from "../../store/slices/userSlice";
 import { productListing, addProductRating } from "../../store/slices/productSlice";
 import { addToCart, cartListing } from "../../store/slices/cartSlice";
 import { useDispatch } from "react-redux";
+import { FaSun, FaMoon } from "react-icons/fa";
 const Home = () => {
   const dispatch = useDispatch()
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,6 +22,17 @@ const Home = () => {
   const [quantities, setQuantities] = useState({});
 
   const [userRating, setUserRating] = useState({});
+  const [selectedProduct, setSelectedProduct] = useState(null);
+const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
+useEffect(() => {
+  document.documentElement.setAttribute("data-theme", theme);
+  localStorage.setItem("theme", theme);
+}, [theme]);
+
+const toggleTheme = () => {
+  setTheme((prev) => (prev === "light" ? "dark" : "light"));
+};
 
   const updateProductQuantity = (productId, qty) => {
     setQuantities((prev) => ({
@@ -49,14 +63,12 @@ const Home = () => {
     const fetchProductListing = async () => {
       setLoading(true);
       try {
-        dispatch(productListing({ search: searchTerm, category: selectedCategory, rating: selectedRating, price: selectedPrice, sortOrder: sortOrder })).then((res) => {
-          if (res?.payload?.code == 200) {
-            setProducts(res.payload.data);
-          }
-          else if (res.payload.code == 404) {
-            setProducts([])
-          }
-        });
+        const res = await dispatch(productListing({ search: searchTerm, category: selectedCategory, rating: selectedRating, price: selectedPrice, sortOrder }));
+        if (res?.payload?.code == 200) {
+          setProducts(res.payload.data);
+        } else {
+          setProducts([]);
+        }
       } catch (error) {
         setProducts([]);
       } finally {
@@ -66,9 +78,11 @@ const Home = () => {
     fetchProductListing();
   }, [searchTerm, selectedCategory, selectedRating, selectedPrice, sortOrder]);
 
-  const handleSortToggle = () => {
+
+  const handleSortToggle = useCallback(() => {
     setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
-  };
+  }, []);
+
 
   const handleRating = async (productId, star) => {
     setUserRating((prev) => ({ ...prev, [productId]: star }));
@@ -100,20 +114,16 @@ const Home = () => {
       console.log(error);
     }
   };
-  return loading ? (
-    <div className="d-flex justify-content-center align-items-center" style={{ height: "300px" }}>
-      <BallTriangle
-        height={100}
-        width={100}
-        radius={5}
-        color="#4fa94d"
-        ariaLabel="ball-triangle-loading"
-        visible={true}
-      />
-    </div>
-  ) : (
+  return (
+
 
     <div className="container-fluid my-5">
+    <div className="text-end mb-3">
+  {/* <button className="btn btn-sm btn-outline-secondary" onClick={toggleTheme}>
+    {theme === "light" ? <FaMoon /> : <FaSun />}
+  </button> */}
+</div>
+
       <div className="bg-warning py-2 overflow-hidden position-relative">
         <div
           className="d-inline-block"
@@ -215,109 +225,131 @@ const Home = () => {
         </div>
       </div>
 
+      {loading ? (
+        <div className="row g-4">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div className="col-sm-6 col-md-3 col-lg-2" key={i}>
+              <div className="p-2 rounded bg-white shadow-sm">
+                <Skeleton height={160} />
+                <Skeleton height={20} className="mt-2" />
+                <Skeleton height={15} count={2} />
+                <Skeleton height={30} width={100} className="mt-2" />
+              </div>
+            </div>
+          ))}
+        </div>) : (
+        <div className="row g-4 mt-3">
 
-      <div className="row g-4 mt-3">
-        
-        {products.length === 0 ? (
-          <div className="alert alert-dark text-center w-100">No products available at the moment.</div>
-        ) : (
-          products.map((product) => {
-            const quantity = quantities[product._id] || 1;
-            const maxQty = product.stock_count || 10;
+          {products.length === 0 ? (
+            <div className="alert alert-dark text-center w-100">No products available at the moment.</div>
+          ) : (
+            products.map((product) => {
+              const quantity = quantities[product._id] || 1;
+              const maxQty = product.stock_count || 10;
 
-            return (
-              
-              <div className="col-sm-6 col-md-4 col-lg-3 d-flex" key={product._id}>
-                
-                <div className="product-card d-flex flex-column w-100 border rounded shadow-sm overflow-hidden bg-white card">
-                  <div className="image-container" style={{ height: "200px", overflow: "hidden" }}>
-                    <img
-                      src={product.image || "https://m.media-amazon.com/images/I/71plM9ESarL.jpg"}
-                      alt={product.name}
-                      className="w-100 h-100"
-                      style={{ objectFit: "cover" }}
-                    />
-                  </div>
+              return (
 
-                  <div className="p-3 d-flex flex-column flex-grow-1 justify-content-between">
-                    <div>
-                      <h5 className="fw-bold mb-1 text-dark text-truncate">{product.name}</h5>
-                      <p className="small text-muted mb-2 fw-bold" style={{ minHeight: "48px" }}>
-                        {product.description.length > 70
-                          ? product.description.substring(0, 70) + "..."
-                          : product.description}
-                      </p>
+                <div className="col-sm-6 col-md-2 col-lg-2 d-flex" key={product._id}>
 
-                      <div className="text-warning mb-2">
-                        {"⭐".repeat(Math.floor(product.averageRating || 0))}{" "}
-                        <span className="text-muted small ms-1">({product.averageRating || 0})</span>
+                  <div className="product-card d-flex flex-column w-100 border rounded shadow-sm overflow-hidden bg-white card">
+                    <div className="image-container" style={{ height: "200px", overflow: "hidden" }}>
+                      <img
+                        src={product.image || "https://m.media-amazon.com/images/I/71plM9ESarL.jpg"}
+                        alt={product.name}
+                        className="w-100 h-100 card"
+                        style={{ objectFit: "cover" }}
+                      />
+                    </div>
+
+                    <div className="p-3 d-flex flex-column flex-grow-1 justify-content-between">
+                      <div>
+                        <h5 className="fw-bold mb-1 text-dark text-truncate">{product.name}</h5>
+                        <p className="small text-muted mb-2 fw-bold" style={{ minHeight: "48px" }}>
+                          {product.description.length > 70
+                            ? product.description.substring(0, 70) + "..."
+                            : product.description}
+                        </p>
+                        <FaEye size={20} onClick={() => setSelectedProduct(product)} />
+                        <div className="text-warning mb-3">
+                          {"⭐".repeat(Math.floor(product.averageRating || 0))}{" "}
+                          <span className="text-muted small ms-1">({product.averageRating || 0})</span>
+                        </div>
+                        <div className="text-success fw-semibold mb-2">₹{product.price}</div>
                       </div>
-
-                      <div className="text-success fw-semibold mb-2">₹{product.price}</div>
-                    </div>
-
-                    <div className="mb-2">
-                      <label className="small text-secondary d-block">Your Rating:</label>
-                      <div className="d-flex gap-1">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <FaStar
-                            key={star}
-                            size={18}
-                            className="star-input"
-                            color={userRating[product._id] >= star ? "#ffc107" : "#e4e5e9"}
-                            style={{ cursor: "pointer" }}
-                            onClick={() => handleRating(product._id, star)}
-                            title={`${star} star${star > 1 ? "s" : ""}`}
-                          />
-                        ))}
+                      <div className="mb-2">
+                        <label className="small text-secondary d-block">Your Rating:</label>
+                        <div className="d-flex gap-1">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <FaStar
+                              key={star}
+                              size={18}
+                              className="star-input"
+                              color={userRating[product._id] >= star ? "#ffc107" : "#e4e5e9"}
+                              style={{ cursor: "pointer" }}
+                              onClick={() => handleRating(product._id, star)}
+                              title={`${star} star${star > 1 ? "s" : ""}`}
+                            />
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="px-3 pb-3 d-flex justify-content-between align-items-center">
-                    {/* Quantity Selector */}
-                    <div className="d-flex align-items-center">
+                    <div className="px-3 pb-3 d-flex justify-content-between align-items-center">
+                      <div className="d-flex align-items-center">
+                        <button
+                          className="btn btn-sm btn-outline-secondary"
+                          onClick={() =>
+                            updateProductQuantity(product._id, Math.max(1, quantity - 1))
+                          }
+                          disabled={quantity <= 1}
+                        >
+                          -
+                        </button>
+                        <span className="mx-2">{quantity}</span>
+                        <button
+                          className="btn btn-sm btn-outline-primary"
+                          onClick={() =>
+                            updateProductQuantity(product._id, Math.min(maxQty, quantity + 1))
+                          }
+                          disabled={quantity >= maxQty}
+                        >
+                          +
+                        </button>
+                      </div>
                       <button
-                        className="btn btn-sm btn-outline-secondary"
-                        onClick={() =>
-                          updateProductQuantity(product._id, Math.max(1, quantity - 1))
-                        }
-                        disabled={quantity <= 1}
+                        className="btn btn-outline-dark rounded-circle d-flex align-items-center justify-content-center"
+                        style={{ width: "45px", height: "45px" }}
+                        onClick={() => AddToCart(product, quantity)}
+                        title="Add to Cart"
                       >
-                        -
-                      </button>
-                      <span className="mx-2">{quantity}</span>
-                      <button
-                        className="btn btn-sm btn-outline-primary"
-                        onClick={() =>
-                          updateProductQuantity(product._id, Math.min(maxQty, quantity + 1))
-                        }
-                        disabled={quantity >= maxQty}
-                      >
-                        +
+                        <FaShoppingCart size={18} />
                       </button>
                     </div>
-
-                    {/* Add to Cart */}
-                    <button
-                      className="btn btn-outline-dark rounded-circle d-flex align-items-center justify-content-center"
-                      style={{ width: "45px", height: "45px" }}
-                      onClick={() => AddToCart(product, quantity)}
-                      title="Add to Cart"
-                    >
-                      <FaShoppingCart size={18} />
-                    </button>
                   </div>
                 </div>
+              );
+            })
+          )}
+          {selectedProduct && (
+            <div className="modal-backdrop" onClick={() => setSelectedProduct(null)}>
+              <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <button className="close-btn" onClick={() => setSelectedProduct(null)}>×</button>
+                <h4 className="mb-2">{selectedProduct.name}</h4>
+                <img src={selectedProduct.image || "https://via.placeholder.com/400"} alt={selectedProduct.name} />
+                <div className="text-warning mb-2">
+                  {"⭐".repeat(Math.floor(selectedProduct.averageRating || 0))}{" "}
+                  <span className="text-muted small ms-1">({selectedProduct.averageRating || 0})</span>
+                </div>
+                <p className="mt-3">{selectedProduct.description}</p>
+                <div className="mt-3 text-success fw-bold">₹{selectedProduct.price}</div>
               </div>
-            );
-          })
-
-
-        )}
-      </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
+
   );
 };
 
 export default Home;
+

@@ -1,5 +1,5 @@
 import React from "react";
-import "./CarouselSection.css"; 
+import "./CarouselSection.css";
 import {
   FaShippingFast,
   FaShieldAlt,
@@ -8,18 +8,18 @@ import {
 
 const slides = [
   {
-    img: "https://infygain.com/uploads/3e8528b7-fb50-421e-be4f-50da50e24483E-commerce%20Website%20Development%20Company%20in%20Coimbatore%20(1).webp", // ✅ Serve WebP or optimized format
+    img: "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/advisor/wp-content/uploads/2022/10/Image-1.jpg",
     title: "Welcome to",
     highlight: "🛍️ BUYIT",
     subtitle: "Find your best deals now!"
   },
   {
-    img: "https://www.areinfotech.com/assets/images/b2b-ecommerce-website-development.webp",
+    img: "https://img.freepik.com/free-photo/representation-user-experience-interface-design_23-2150169847.jpg",
     title: "Stylish Trends 🛍️ BuyIt",
     subtitle: "Up to 60% off this season"
   },
   {
-    img: "https://www.codiasticsoft.com/assets/img/blogs/E-Comm.jpg",
+    img: "https://plus.unsplash.com/premium_photo-1683147686464-63ad6c430711?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE2fHx8ZW58MHx8fHx8",
     title: "Smart Gadgets 🛍️ BuyIt",
     subtitle: "Upgrade your lifestyle"
   }
@@ -30,7 +30,7 @@ const CarouselSection = () => {
     <div className="container-fluid px-0">
       <div
         id="ecomCarousel"
-        className="carousel slide carousel-fade"
+        className="carousel slide carousel-fade position-relative"
         data-bs-ride="carousel"
         data-bs-interval="3500"
       >
@@ -47,7 +47,7 @@ const CarouselSection = () => {
                   alt={item.title}
                   loading={index === 0 ? "eager" : "lazy"}
                 />
-                <div className="carousel-caption d-none d-md-block position-absolute top-20 start-50 translate-middle text-white rounded p-4">
+                <div className="carousel-caption text-white rounded p-4">
                   <h2 className="fw-bold">
                     {item.title}{" "}
                     {item.highlight && <span className="text-warning">{item.highlight}</span>}
@@ -77,7 +77,7 @@ const CarouselSection = () => {
         </button>
       </div>
 
-      {/* Info section */}
+      {/* Info Section */}
       <section className="py-5 bg-light text-center">
         <div className="container">
           <div className="row g-4">

@@ -1,14 +1,35 @@
 .carousel-img {
   width: 100%;
-  aspect-ratio: 16/9;     /* ✅ Reserves space to prevent layout shift */
+  aspect-ratio: 16/9;
   object-fit: cover;
   filter: brightness(0.7);
   height: 90vh;
+  position: relative;
 }
 
-/* Optional: Reduce CLS for captions by giving them stable size */
+.carousel-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0,0,0,0.7));
+  z-index: 1;
+}
+
 .carousel-caption {
   min-height: 120px;
+  z-index: 2;
+  animation: fadeSlideUp 1s ease-in-out;
+}
+
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .carousel-caption h2 span {
@@ -20,4 +41,41 @@
   background-color: rgba(0, 0, 0, 0.5);
   padding: 10px;
   border-radius: 50%;
+}
+
+/* Progress bar */
+.carousel-inner::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: #ffc107;
+  width: 100%;
+  animation: slideProgress 3.5s linear infinite;
+}
+
+@keyframes slideProgress {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .carousel-caption {
+    font-size: 0.9rem;
+    padding: 1rem;
+  }
+
+  .carousel-caption h2 {
+    font-size: 1.25rem;
+  }
+
+  .carousel-caption p {
+    display: none;
+  }
+
+  .display-5 {
+    font-size: 2rem !important;
+  }
 }
